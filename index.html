@@ -15,8 +15,16 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
             overflow: hidden;
+            position: fixed;
+            touch-action: none;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
             background-color: #010206;
             user-select: none;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -25,20 +33,19 @@
 
         canvas.webgl {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             outline: none;
             z-index: 1;
+            touch-action: none;
         }
 
         #cursorCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 10;
         }
@@ -63,6 +70,8 @@
             justify-content: center;
             z-index: 999;
             transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            padding: 20px;
+            text-align: center;
         }
 
         .loader-moon {
@@ -74,9 +83,9 @@
 
         .loader-title {
             font-family: 'Cinzel', serif;
-            font-size: 15px;
+            font-size: clamp(13px, 4vw, 16px);
             font-weight: 600;
-            letter-spacing: 4px;
+            letter-spacing: 3.5px;
             text-transform: uppercase;
             color: #f0f4ff;
             text-shadow: 0 0 16px rgba(180, 210, 255, 0.7);
@@ -85,10 +94,10 @@
 
         .loader-sub {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 14px;
+            font-size: clamp(13px, 3.5vw, 15px);
             font-style: italic;
             font-weight: 500;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             color: rgba(200, 220, 255, 0.85);
         }
 
@@ -97,18 +106,19 @@
             50% { transform: scale(1.1) translateY(-6px); }
         }
 
-        /* ── Romantic Floating Constellation Poetry (Screen Dead Center) ── */
+        /* ── Romantic Floating Constellation Poetry (Responsive) ── */
         .poetry-container {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: min(680px, calc(100vw - 48px));
+            width: min(680px, calc(100vw - 36px));
             z-index: 20;
             pointer-events: none;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.5s ease;
         }
 
         .card-aura {
@@ -135,25 +145,26 @@
         .poetry-card {
             position: relative;
             width: 100%;
-            background: rgba(6, 12, 26, 0.74);
+            background: rgba(6, 12, 26, 0.78);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
             border: 1px solid rgba(210, 230, 255, 0.32);
             border-bottom: 2px solid rgba(220, 235, 255, 0.9);
-            padding: 28px 38px;
-            border-radius: 24px;
+            padding: clamp(20px, 4vw, 32px) clamp(20px, 5vw, 42px);
+            border-radius: clamp(16px, 4vw, 24px);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 45px rgba(120, 180, 255, 0.25);
             transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s ease;
             text-align: center;
             cursor: pointer;
             pointer-events: auto;
+            touch-action: manipulation;
         }
 
         .poetry-tag {
             font-family: 'Cinzel', serif;
-            font-size: 11.5px;
+            font-size: clamp(9.5px, 2.5vw, 11.5px);
             font-weight: 600;
-            letter-spacing: 3.5px;
+            letter-spacing: clamp(2px, 0.8vw, 3.5px);
             text-transform: uppercase;
             color: #cde4ff;
             text-shadow: 0 0 12px rgba(180, 215, 255, 0.6);
@@ -161,20 +172,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: clamp(6px, 2vw, 12px);
         }
 
         .poetry-tag::before,
         .poetry-tag::after {
             content: '';
-            width: 24px;
+            width: clamp(14px, 4vw, 24px);
             height: 1px;
             background: rgba(200, 225, 255, 0.75);
         }
 
         .poetry-main {
             font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-            font-size: clamp(25px, 3.8vw, 36px);
+            font-size: clamp(18px, 4.2vw, 34px);
             font-weight: 600;
             font-style: italic;
             letter-spacing: 0.2px;
@@ -187,7 +198,7 @@
 
         .poetry-sub {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(15px, 2.1vw, 19px);
+            font-size: clamp(13.5px, 3.2vw, 18.5px);
             font-weight: 500;
             letter-spacing: 0.8px;
             color: rgba(225, 240, 255, 0.95);
@@ -196,12 +207,33 @@
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        @media (max-width: 768px) {
+        .poetry-hint {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(180, 215, 255, 0.55);
+            margin-top: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: block;
+        }
+
+        /* ── Mobile Portrait Specific Framing & Layout ── */
+        @media (max-width: 680px) and (orientation: portrait) {
             .poetry-container {
-                width: calc(100vw - 32px);
+                top: auto;
+                bottom: clamp(20px, 4vh, 36px);
+                transform: translateX(-50%);
+                width: calc(100vw - 24px);
             }
             .poetry-card {
-                padding: 20px 22px;
+                padding: 18px 20px;
+            }
+            .poetry-main {
+                font-size: clamp(17px, 4.8vw, 22px);
+                margin-bottom: 8px;
+            }
+            .poetry-sub {
+                font-size: clamp(13px, 3.6vw, 15px);
             }
         }
     </style>
@@ -231,6 +263,7 @@
             <div class="poetry-tag" id="poetryTag">Moonlit Whispers</div>
             <div class="poetry-main" id="poemMain">Just like the moon illuminates the night...</div>
             <div class="poetry-sub" id="poemSub">You are the serene light my heart follows forever.</div>
+            <span class="poetry-hint">✨ Tap card to change whisper</span>
         </div>
     </main>
 
@@ -702,7 +735,9 @@
             playRomanticMelody();
             audioStarted = true;
         }
-        window.addEventListener('pointerdown', tryStartAudio, { once: true });
+        ['pointerdown', 'touchstart', 'touchend', 'click'].forEach(evt => {
+            window.addEventListener(evt, tryStartAudio, { once: true, passive: true });
+        });
 
         // ════════════════════════════════════════════
         //  CREATE CRESCENT MOON & HORIZON
@@ -1272,6 +1307,21 @@
         }
         animateCursorParticles();
 
+        function updateCameraFov() {
+            if (!camera) return;
+            const aspect = window.innerWidth / window.innerHeight;
+            if (aspect < 0.8) {
+                // Portrait mobile screens: wide vertical FOV to prevent horizontal clipping
+                camera.fov = 68;
+            } else if (aspect < 1.2) {
+                camera.fov = 58;
+            } else {
+                camera.fov = 52;
+            }
+            camera.aspect = aspect;
+            camera.updateProjectionMatrix();
+        }
+
         // ════════════════════════════════════════════
         //  INIT THREE.JS SCENE & POST-PROCESSING
         // ════════════════════════════════════════════
@@ -1280,16 +1330,21 @@
             scene.background = new THREE.Color(0x010206);
             scene.fog = new THREE.FogExp2(0x010206, 0.00028);
 
-            camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 1, 30000);
+            const initialAspect = window.innerWidth / window.innerHeight;
+            const initialFov = initialAspect < 0.8 ? 68 : (initialAspect < 1.2 ? 58 : 52);
+
+            camera = new THREE.PerspectiveCamera(initialFov, initialAspect, 1, 30000);
             camera.position.set(-350, 75, 450);
+
+            const isMobile = window.innerWidth < 768;
 
             renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
-                antialias: true,
+                antialias: !isMobile,
                 powerPreference: 'high-performance'
             });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
             renderer.toneMappingExposure = 1.05;
 
@@ -1316,7 +1371,7 @@
             const renderScene = new RenderPass(scene, camera);
             const bloomPass = new UnrealBloomPass(
                 new THREE.Vector2(window.innerWidth, window.innerHeight),
-                1.1,   // strength
+                isMobile ? 0.85 : 1.1,   // strength
                 0.45,  // radius
                 0.35   // threshold
             );
@@ -1334,6 +1389,9 @@
             createFloatingPetals();
 
             window.addEventListener('resize', onWindowResize);
+            window.addEventListener('orientationchange', () => {
+                setTimeout(onWindowResize, 200);
+            });
 
             // Tour is permanently active as requested
             isTourActive = true;
@@ -1349,13 +1407,16 @@
         }
 
         function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
+            updateCameraFov();
+
+            const isMobile = window.innerWidth < 768;
+            const maxDpr = isMobile ? 1.5 : 2;
 
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxDpr));
 
             composer.setSize(window.innerWidth, window.innerHeight);
+            resizeCursorCanvas();
         }
 
         // ════════════════════════════════════════════
